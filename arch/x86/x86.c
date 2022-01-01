@@ -10,6 +10,44 @@
 
 #include "../../zutil.h"
 
+#ifdef __EMSCRIPTEN__
+// cpuid isn't supported in Emscripten so base the support on the compiler checks
+
+#ifdef X86_AVX2
+Z_INTERNAL int x86_cpu_has_avx2 = 1;
+#else
+Z_INTERNAL int x86_cpu_has_avx2 = 0;
+#endif
+
+#ifdef X86_SSE2
+Z_INTERNAL int x86_cpu_has_sse2 = 1;
+#else
+Z_INTERNAL int x86_cpu_has_sse2 = 0;
+#endif
+
+#ifdef X86_SSSE3
+Z_INTERNAL int x86_cpu_has_ssse3 = 1;
+#else
+Z_INTERNAL int x86_cpu_has_ssse3 = 0;
+#endif
+
+#if defined(X86_SSE42_CMP_STR) && defined(X86_SSE42_CRC_HASH)
+Z_INTERNAL int x86_cpu_has_sse42 = 1;
+#else
+Z_INTERNAL int x86_cpu_has_sse42 = 0;
+#endif
+
+#ifdef X86_PCLMULQDQ_CRC
+Z_INTERNAL int x86_cpu_has_pclmulqdq = 1;
+#else
+Z_INTERNAL int x86_cpu_has_pclmulqdq = 0;
+#endif
+
+Z_INTERNAL int x86_cpu_has_tzcnt = 1;
+
+void Z_INTERNAL x86_check_features(void) {}
+#else
+
 #ifdef _MSC_VER
 #  include <intrin.h>
 #else
@@ -78,3 +116,4 @@ void Z_INTERNAL x86_check_features(void) {
         x86_cpu_has_avx2 = 0;
     }
 }
+#endif
