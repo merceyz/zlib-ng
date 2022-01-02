@@ -107,7 +107,8 @@ sse2flag="-msse2"
 ssse3flag="-mssse3"
 sse4flag="-msse4"
 sse42flag="-msse4.2"
-pclmulflag="-mpclmul"
+# Emscripten doesn't support -mpclmul
+pclmulflag="-msse2 -mssse3 -msse4.1 -mpclmul"
 acleflag=
 neonflag=
 noltoflag="-fno-lto"
